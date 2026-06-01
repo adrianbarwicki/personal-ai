@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>adrian's note — €100/h developers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    // ?slide=N → render only that slide (for headless screenshots)
+    (function () {
+      const m = location.search.match(/[?&]slide=(\d+)/);
+      if (!m) return;
+      const target = Number(m[1]);
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.slide').forEach(function (s, i) {
+          if (i + 1 !== target) s.style.display = 'none';
+        });
+        document.body.style.padding = '0';
+        document.body.style.gap = '0';
+        document.body.style.background = '#f7f3eb';
+      });
+    })();
+  </script>
+  <style>
+    :root {
+      --paper: #f7f3eb;
+      --ink: #1a1612;
+      --ink-muted: #6e655a;
+      --ink-soft: #a39786;
+      --hair: #d8cdb7;
+      --marker: #fde68a;         /* yellow highlighter */
+      --marker-deep: #fcd34d;
+      --pen-red: #b91c1c;        /* red pen mark — used sparingly */
+    }
+
+    @page { size: 1080px 1350px; margin: 0; }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #d6d3d1;
+      font-family: 'Lora', Georgia, serif;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-feature-settings: 'kern' 1;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      background: var(--paper);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 112px 110px 104px;
+      page-break-after: always;
+      page-break-inside: avoid;
+    }
+    .slide:last-child { page-break-after: auto; }
+
+    /* Paper texture — very faint, off-color speckles + a warm vignette */
+    .slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 800px 600px at 20% 100%, rgba(0,0,0,0.04), transparent 70%),
+        radial-gradient(ellipse 600px 400px at 100% 0%, rgba(185, 28, 28, 0.025), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 23% 17%, rgba(110,101,90,0.04) 1px, transparent 1.5px),
+        radial-gradient(circle at 67% 41%, rgba(110,101,90,0.04) 1px, transparent 1.5px),
+        radial-gradient(circle at 12% 73%, rgba(110,101,90,0.05) 1px, transparent 1.5px),
+        radial-gradient(circle at 84% 88%, rgba(110,101,90,0.04) 1px, transparent 1.5px),
+        radial-gradient(circle at 45% 9%, rgba(110,101,90,0.03) 1px, transparent 1.5px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top header — like a notebook page header */
+    .top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ink-muted);
+      position: relative;
+      z-index: 1;
+    }
+    .top .label { letter-spacing: 0.04em; }
+    .top .label .arr {
+      color: var(--ink-soft);
+      margin: 0 8px;
+    }
+    .top .page {
+      color: var(--ink-soft);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Body container */
+    .stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px 0 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .stage.top { justify-content: flex-start; padding-top: 80px; }
+
+    /* Writing — main body type */
+    .write {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 50px;
+      line-height: 1.32;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .write.smaller { font-size: 42px; line-height: 1.34; }
+    .write.bigger { font-size: 60px; line-height: 1.22; }
+
+    /* Highlighter mark — yellow rectangle behind text, slight rotation */
+    .hl {
+      position: relative;
+      display: inline;
+      padding: 4px 8px;
+      margin: 0 -2px;
+      background-image: linear-gradient(105deg, transparent 0%, var(--marker) 8%, var(--marker) 92%, transparent 100%);
+      background-size: 100% 70%;
+      background-position: 0 80%;
+      background-repeat: no-repeat;
+      transform: rotate(-0.3deg);
+      display: inline-block;
+    }
+    .hl.deep {
+      background-image: linear-gradient(105deg, transparent 0%, var(--marker-deep) 8%, var(--marker-deep) 92%, transparent 100%);
+    }
+
+    /* Hand-drawn underline (SVG) */
+    .ul-wave {
+      position: relative;
+      display: inline-block;
+    }
+    .ul-wave::after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      bottom: -8px;
+      height: 12px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2,8 Q20,2 40,7 T80,6 T120,7 T160,5 T198,7' fill='none' stroke='%23b91c1c' stroke-width='3' stroke-linecap='round'/></svg>");
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+    }
+    .ul-wave.ink::after {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'><path d='M2,8 Q20,2 40,7 T80,6 T120,7 T160,5 T198,7' fill='none' stroke='%231a1612' stroke-width='3' stroke-linecap='round'/></svg>");
+    }
+
+    /* Red pen marks */
+    .pen-red { color: var(--pen-red); }
+    .pen-mark {
+      display: inline-block;
+      color: var(--pen-red);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7em;
+      vertical-align: super;
+      margin-left: 4px;
+      transform: rotate(-8deg);
+      transform-origin: bottom left;
+    }
+
+    /* Em-dash list — notebook style */
+    .list-em {
+      list-style: none;
+      margin: 36px 0;
+      padding: 0;
+    }
+    .list-em li {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 44px;
+      line-height: 1.4;
+      color: var(--ink);
+      padding: 14px 0;
+      letter-spacing: -0.005em;
+      position: relative;
+      padding-left: 56px;
+    }
+    .list-em li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--ink-soft);
+      font-weight: 400;
+    }
+
+    /* Numbered list — "i."  "ii." marginalia style */
+    .list-roman {
+      list-style: none;
+      margin: 24px 0;
+      padding: 0;
+    }
+    .list-roman li {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 36px;
+      line-height: 1.4;
+      color: var(--ink);
+      padding: 24px 0;
+      letter-spacing: -0.005em;
+      position: relative;
+      padding-left: 80px;
+      border-bottom: 1px solid var(--hair);
+    }
+    .list-roman li:last-child { border-bottom: none; }
+    .list-roman li::before {
+      content: attr(data-mark);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 22px;
+      font-weight: 500;
+      position: absolute;
+      left: 0;
+      top: 32px;
+      color: var(--pen-red);
+      letter-spacing: 0.05em;
+    }
+    .list-roman li b {
+      font-weight: 600;
+    }
+
+    /* Equation / math block — looks scribbled */
+    .math {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 48px;
+      line-height: 1.5;
+      color: var(--ink);
+      margin: 32px 0;
+    }
+    .math .line {
+      padding: 6px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .math .line .op {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ink-soft);
+      font-size: 36px;
+      min-width: 28px;
+    }
+    .math .line.sum {
+      border-top: 1px solid var(--ink);
+      margin-top: 16px;
+      padding-top: 18px;
+      font-weight: 500;
+    }
+
+    /* "Big number" but understated — like writing a big number in margins */
+    .big-num {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 240px;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 500;
+      color: var(--ink);
+      margin: 24px 0 16px;
+      position: relative;
+      display: inline-block;
+    }
+    .big-num.circled::before {
+      content: '';
+      position: absolute;
+      inset: -20px -32px -16px -32px;
+      border: 4px solid var(--pen-red);
+      border-radius: 50%;
+      transform: rotate(-2deg);
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .big-num.struck {
+      color: var(--ink-soft);
+    }
+    .big-num.struck::after {
+      content: '';
+      position: absolute;
+      left: -16px;
+      right: -16px;
+      top: 56%;
+      height: 6px;
+      background: var(--pen-red);
+      transform: rotate(-4deg);
+      transform-origin: left center;
+    }
+
+    /* Arrow in margin */
+    .arrow {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--pen-red);
+      display: inline-block;
+      margin-right: 12px;
+    }
+
+    /* Bottom — signature line */
+    .bottom {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      padding-top: 24px;
+      border-top: 1px solid var(--hair);
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.02em;
+    }
+    .bottom .sig {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--ink-muted);
+      letter-spacing: -0.005em;
+    }
+    .bottom .url { color: var(--ink-muted); }
+
+    /* Marginalia — asterisks and notes that appear in slight rotation */
+    .marg {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ink-soft);
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      z-index: 1;
+    }
+    .marg.tr { top: 130px; right: 110px; }
+    .marg.br { bottom: 140px; right: 110px; transform: rotate(-2deg); }
+    .marg.bl { bottom: 140px; left: 110px; }
+
+    /* Star/asterisk decoration */
+    .star {
+      display: inline-block;
+      color: var(--pen-red);
+      transform: rotate(-12deg);
+      margin: 0 6px;
+      font-size: 0.9em;
+    }
+
+    /* Author avatar — small circular crop, slightly rotated, hand-placed feel */
+    .bottom .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px rgba(216, 205, 183, 0.6);
+      transform: rotate(-2deg);
+      background: var(--hair);
+    }
+    .bottom .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .bottom.with-avatar {
+      align-items: center;
+    }
+    .bottom.with-avatar .sig-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* Flow diagram — vertical list of steps with red arrow markers */
+    .flow {
+      margin: 28px 0 36px;
+    }
+    .flow .step {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 40px;
+      line-height: 1.3;
+      color: var(--ink);
+      letter-spacing: -0.005em;
+      padding: 14px 0 14px 68px;
+      position: relative;
+    }
+    .flow .step::before {
+      content: '→';
+      font-family: 'JetBrains Mono', monospace;
+      position: absolute;
+      left: 0;
+      top: 22px;
+      color: var(--pen-red);
+      font-size: 30px;
+      font-weight: 500;
+    }
+    .flow .step .note {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 26px;
+      color: var(--ink-muted);
+      font-style: italic;
+      margin-left: 12px;
+    }
+    .flow .total {
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--ink);
+      padding-left: 68px;
+      position: relative;
+    }
+    .flow .total::before {
+      content: '=';
+      font-family: 'JetBrains Mono', monospace;
+      position: absolute;
+      left: 0;
+      top: 28px;
+      color: var(--ink-soft);
+      font-size: 30px;
+    }
+    .flow .total + .total {
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─────── Slide 1 — Cover (the title page of the notebook) ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">may 2026</span>
+      <span class="page">01 / 08</span>
+    </div>
+    <div class="stage">
+      <div class="write bigger">
+        Building features<br/>
+        with a team of <span class="hl">€100/h devs</span><br/>
+        is the most expensive way<br/>
+        to ship software.
+      </div>
+    </div>
+    <div class="bottom with-avatar">
+      <span class="sig-row">
+        <span class="avatar"><img src="../../personal-avatar.png" alt="Adrian Barwicki" /></span>
+        <span class="sig">— adrian barwicki, founder · 11 yrs writing code</span>
+      </span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 2 — Old flow ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">the old flow <span class="arr">→</span> 2023</span>
+      <span class="page">02 / 08</span>
+    </div>
+    <div class="stage top">
+      <div class="write smaller" style="color: var(--ink-muted);">to ship one feature, the work moved across <span style="color: var(--ink);">five handoffs:</span></div>
+      <div class="flow">
+        <div class="step">PM writes the ticket</div>
+        <div class="step">designer mocks it up</div>
+        <div class="step">backend engineer builds the API</div>
+        <div class="step">frontend engineer builds the UI</div>
+        <div class="step">QA finds the edge cases</div>
+        <div class="total">6 weeks · 3 specialists × €100/h</div>
+        <div class="total"><span class="hl">~€72,000 per feature</span></div>
+      </div>
+      <div class="write smaller" style="margin-top: 24px; color: var(--ink-muted); font-style: italic;">the formula that drove a decade of software hiring.</div>
+    </div>
+    <div class="bottom">
+      <span class="sig">— the 2023 operating model</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 3 — New flow ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">the new flow <span class="arr">→</span> 2026</span>
+      <span class="page">03 / 08</span>
+    </div>
+    <div class="stage top">
+      <div class="write smaller" style="color: var(--ink-muted);">same feature. same output. <span style="color: var(--ink);">one human, not five:</span></div>
+      <div class="flow">
+        <div class="step">product-wide docs repo <span class="note">— humans AND AI read it</span></div>
+        <div class="step">PM drafts tickets with AI <span class="note">— full company context</span></div>
+        <div class="step">AI reads Jira and codes the task</div>
+        <div class="step">engineer reviews + coordinates <span class="note">— no more typing</span></div>
+        <div class="total">2 weeks · 1 engineer + AI</div>
+        <div class="total"><span class="hl deep">~€20,000 per feature</span></div>
+      </div>
+      <div class="write smaller" style="margin-top: 24px; color: var(--ink-muted); font-style: italic;">the operating model i'm running across three companies.</div>
+    </div>
+    <div class="bottom">
+      <span class="sig">— the 2026 operating model</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 4 — The delta ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">same output <span class="arr">→</span> different leverage</span>
+      <span class="page">04 / 08</span>
+    </div>
+    <div class="stage">
+      <div class="write" style="color: var(--ink-muted);">a year ago vs today, same engineers, same output:</div>
+      <div class="big-num circled" style="margin-top: 48px;">−70%</div>
+      <div class="write" style="margin-top: 8px;">cost. <span class="hl">2× the speed.</span></div>
+      <div class="write smaller" style="margin-top: 56px; color: var(--ink-muted); font-style: italic;">most founders are still budgeting against the old numbers.</div>
+    </div>
+    <div class="bottom">
+      <span class="sig">— the leverage layer changed</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 5 — The role inversion ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">the role inversion</span>
+      <span class="page">05 / 08</span>
+    </div>
+    <div class="stage">
+      <div class="write bigger">
+        The engineer's job<br/>
+        in 2026 is no longer<br/>
+        <span style="color: var(--ink-muted); font-style: italic;">to type the code.</span>
+      </div>
+      <div class="write bigger" style="margin-top: 48px;">
+        It's to <span class="hl deep">review what AI shipped,</span><br/>
+        coordinate the team,<br/>
+        and decide what's good.<span class="star">✱</span>
+      </div>
+    </div>
+    <div class="bottom">
+      <span class="sig">— typing is now the slow path</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 6 — Three pieces of the new model ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">what i built <span class="arr">→</span> three pieces</span>
+      <span class="page">06 / 08</span>
+    </div>
+    <div class="stage top">
+      <div class="write smaller" style="color: var(--ink-muted);">the three things i installed across the companies:</div>
+      <ol class="list-roman">
+        <li data-mark="i."><b>A product-wide docs repo</b> — engineering, design, bizdev, accounting. Readable by humans AND AI. The shared brain of the company.</li>
+        <li data-mark="ii."><b>PMs draft tickets with AI</b> — informed by the full docs repo, not just product specs. Better tickets, faster. AI then reads the tickets in Jira and codes the task.</li>
+        <li data-mark="iii."><b>Engineers review + coordinate</b> — they don't type line by line. Judgement, not output. The bottleneck moves from typing speed to taste.</li>
+      </ol>
+    </div>
+    <div class="bottom">
+      <span class="sig">— not a reorg, a new operating model</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 7 — The result ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">the result <span class="arr">→</span> three months in</span>
+      <span class="page">07 / 08</span>
+    </div>
+    <div class="stage">
+      <ul class="list-em">
+        <li>Quality, <span class="hl">up.</span></li>
+        <li>Shipping speed, <span class="hl">up.</span></li>
+        <li>Headcount, <span class="hl deep">down.</span></li>
+      </ul>
+      <div class="write smaller" style="margin-top: 56px; color: var(--ink-muted); font-style: italic; max-width: 820px;">
+        same people, paid the same. different leverage. different operating model. the headline numbers tell you what to look at — but they don't tell you what to change.
+      </div>
+    </div>
+    <div class="bottom">
+      <span class="sig">— different leverage, not different people</span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+  <!-- ─────── Slide 8 — The takeaway ─────── -->
+  <div class="slide">
+    <div class="top">
+      <span class="label">the takeaway</span>
+      <span class="page">08 / 08</span>
+    </div>
+    <div class="stage">
+      <div class="write bigger">
+        You need fewer engineers.<br/>
+        More senior.<br/>
+        Paid <span class="hl deep">way above market.</span>
+      </div>
+      <div class="write" style="margin-top: 64px;">
+        It saves money.<br/>
+        And ships faster.
+      </div>
+    </div>
+    <div class="bottom with-avatar">
+      <span class="sig-row">
+        <span class="avatar"><img src="../../personal-avatar.png" alt="Adrian Barwicki" /></span>
+        <span class="sig">— adrian barwicki</span>
+      </span>
+      <span class="url">adrianbarwicki.com</span>
+    </div>
+  </div>
+
+</body>
+</html>

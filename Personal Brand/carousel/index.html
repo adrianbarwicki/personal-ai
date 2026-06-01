@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adrian Barwicki — Carousel Index</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      padding: 60px 40px;
+    }
+    .container { max-width: 920px; margin: 0 auto; }
+    h1 {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 48px;
+    }
+    .accent {
+      display: inline-block;
+      width: 48px;
+      height: 3px;
+      background: #4a90e8;
+      margin-bottom: 24px;
+    }
+    h2 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin: 40px 0 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      display: block;
+      padding: 18px 20px;
+      background: #12234f;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: #4a90e8;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .card-meta {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 8px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+    .stat strong { color: #fff; }
+    .footer {
+      margin-top: 64px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+    }
+    .footer code {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="accent"></div>
+    <h1>Personal Brand Carousels</h1>
+    <div class="sub">Adrian Barwicki · LinkedIn / Instagram · 1080×1350 · 8 slides each</div>
+
+    <div class="stats">
+      <div class="stat"><strong>17</strong> carousels</div>
+      <div class="stat"><strong>136</strong> total slides</div>
+      <div class="stat">English only</div>
+    </div>
+
+    <h2>Founder · Hot take</h2>
+    <div class="grid">
+      <a class="card" href="./never-50-50/slides.html">
+        <div class="card-title">Never start a company 50/50.</div>
+        <div class="card-meta">Hot take · 8 slides</div>
+      </a>
+      <a class="card" href="./advisor-equity-expensive/slides.html">
+        <div class="card-title">The cheapest advisor is the one you pay in cash.</div>
+        <div class="card-meta">Founder · 8 slides</div>
+      </a>
+      <a class="card" href="./pitch-deck-slide-3/slides.html">
+        <div class="card-title">Why pitch decks fail at slide 3.</div>
+        <div class="card-meta">Founder · 8 slides</div>
+      </a>
+      <a class="card" href="./raising-is-easy/slides.html">
+        <div class="card-title">Raising is the easy part.</div>
+        <div class="card-meta">Founder · 8 slides</div>
+      </a>
+      <a class="card" href="./first-hire-only-one/slides.html">
+        <div class="card-title">Your first hire is the only one that matters.</div>
+        <div class="card-meta">Founder · 8 slides</div>
+      </a>
+      <a class="card" href="./business-model-on-napkin/slides.html">
+        <div class="card-title">If you need a deck to explain it, it's not a business model.</div>
+        <div class="card-meta">Founder · 8 slides</div>
+      </a>
+    </div>
+
+    <h2>AI · Engineering</h2>
+    <div class="grid">
+      <a class="card" href="./coding-in-2026/slides.html">
+        <div class="card-title">If you still write code in 2026, you do it wrong.</div>
+        <div class="card-meta">Hot take · 8 slides</div>
+      </a>
+      <a class="card" href="./ai-features-bullshit/slides.html">
+        <div class="card-title">90% of "AI features" in 2026 are bullshit.</div>
+        <div class="card-meta">AI · 8 slides</div>
+      </a>
+      <a class="card" href="./ai-replaces-bad-support/slides.html">
+        <div class="card-title">AI replaced bad customer support — not customer support.</div>
+        <div class="card-meta">AI · 8 slides</div>
+      </a>
+      <a class="card" href="./10x-team-not-engineer/slides.html">
+        <div class="card-title">The 10x engineer is dead. The 10x team isn't.</div>
+        <div class="card-meta">Engineering · 8 slides</div>
+      </a>
+      <a class="card" href="./hire-principled-not-senior/slides.html">
+        <div class="card-title">Stop hiring senior engineers. Hire principled ones.</div>
+        <div class="card-meta">Engineering · 8 slides</div>
+      </a>
+    </div>
+
+    <h2>Operator Truth · RENTUJEMY</h2>
+    <div class="grid">
+      <a class="card" href="./systems-not-properties/slides.html">
+        <div class="card-title">Why most STR operators never scale past 30 properties.</div>
+        <div class="card-meta">Operator · 8 slides</div>
+      </a>
+      <a class="card" href="./documentation-not-operations/slides.html">
+        <div class="card-title">You don't have an ops problem. You have a documentation problem.</div>
+        <div class="card-meta">Operator · 8 slides</div>
+      </a>
+      <a class="card" href="./response-time-metric/slides.html">
+        <div class="card-title">Your apartment isn't the problem. Your reply time is.</div>
+        <div class="card-meta">Operator · 8 slides</div>
+      </a>
+    </div>
+
+    <h2>Lifestyle · Discipline</h2>
+    <div class="grid">
+      <a class="card" href="./bjj-systems/slides.html">
+        <div class="card-title">BJJ teaches you more than an MBA.</div>
+        <div class="card-meta">Lifestyle · 8 slides</div>
+      </a>
+      <a class="card" href="./disappear-for-week/slides.html">
+        <div class="card-title">I built systems so I could disappear for a week.</div>
+        <div class="card-meta">Lifestyle · 8 slides</div>
+      </a>
+      <a class="card" href="./mountain-no-inbox/slides.html">
+        <div class="card-title">The mountain doesn't reschedule for your inbox.</div>
+        <div class="card-meta">Lifestyle · 8 slides</div>
+      </a>
+    </div>
+
+    <div class="footer">
+      Preview: click any card to view all 8 slides stacked.<br>
+      Export PNGs: <code>npx node screenshot.js</code> (all) or <code>npx node screenshot.js never-50-50</code> (one folder).<br>
+      Output: each carousel's <code>output/</code> subfolder, 2160×2700 retina PNGs ready for upload.
+    </div>
+  </div>
+</body>
+</html>
